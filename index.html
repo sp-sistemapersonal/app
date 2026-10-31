@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#06090F">
+<title>SP · Sistema Personal</title>
+<meta name="description" content="Entra a tu App de SP · Sistema Personal.">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/iconos/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/iconos/apple-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SP">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* SP fase 2 · diseño 52 (pantalla 3) con el estilo del login */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #06090F; color: #e8eaf0; font-family: Inter, sans-serif; font-size: 14px; min-height: 100vh; }
+  button { font-family: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+  .esp { position: relative; min-height: 100vh; min-height: 100dvh; overflow: hidden; display: flex; flex-direction: column; align-items: center; padding: calc(36px + env(safe-area-inset-top, 0)) 22px calc(28px + env(safe-area-inset-bottom, 0)); }
+  .fondo { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .halo { position: absolute; top: -40px; left: 50%; width: 420px; height: 320px; margin-left: -210px; border-radius: 50%; background: radial-gradient(ellipse, rgba(245,195,68,.26), rgba(212,175,55,.08) 40%, transparent 72%); filter: blur(40px); animation: respirar 6s ease-in-out infinite; }
+  .rayos { position: absolute; top: -140px; left: 50%; width: 560px; height: 560px; margin-left: -280px; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0 8%, rgba(245,195,68,.09) 10%, transparent 13% 25%, rgba(245,195,68,.07) 28%, transparent 31% 45%, rgba(245,195,68,.09) 48%, transparent 51% 70%, rgba(245,195,68,.07) 73%, transparent 76%); animation: girar 60s linear infinite; -webkit-mask-image: radial-gradient(circle, #000 20%, transparent 65%); mask-image: radial-gradient(circle, #000 20%, transparent 65%); }
+  .polvo i { position: absolute; bottom: -10px; width: 3px; height: 3px; border-radius: 50%; background: #FFE088; box-shadow: 0 0 6px 1px rgba(245,195,68,.9); opacity: 0; animation: subir linear infinite; }
+  .capa { position: relative; z-index: 1; width: 100%; max-width: 420px; display: flex; flex-direction: column; flex: 1; }
+  .anillo { position: relative; display: block; width: 76px; height: 76px; margin: 26px auto 20px; padding: 2px; border-radius: 22px; background: conic-gradient(from var(--ang, 0deg), #7a5c12, #FFE088, #D4AF37, #7a5c12, #F5C344, #7a5c12); animation: angulo 6s linear infinite; box-shadow: 0 0 30px rgba(245,195,68,.55), 0 0 60px rgba(212,175,55,.25); }
+  .anillo span { position: relative; width: 100%; height: 100%; border-radius: 20px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 30% 25%, #2a2f3b, #0d121b 75%); font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 22px; color: #FFE088; text-shadow: 0 0 12px rgba(255,224,136,.9), 0 0 26px rgba(245,195,68,.6); }
+  .anillo span::after { content: ""; position: absolute; top: 0; left: 0; width: 60%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,240,200,.35), transparent); transform: translateX(-150%) skewX(-20deg); animation: brillo 3.5s ease-in-out infinite .5s; }
+  .marca { text-align: center; font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: .24em; color: #94a3b8; text-transform: uppercase; }
+  .oro { background: linear-gradient(100deg, #f1e7c8 0%, #F5C344 30%, #FFF4CC 45%, #D4AF37 60%, #FFE088 80%, #f1e7c8 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: oroFluye 5s linear infinite; filter: drop-shadow(0 0 12px rgba(245,195,68,.35)); }
+  .tit { text-align: center; font-size: 25px; line-height: 32px; font-weight: 600; letter-spacing: -.02em; margin-top: 8px; }
+  .linea { height: 2px; width: 70px; margin: 12px auto 0; border-radius: 9px; background: linear-gradient(to right, transparent, #F5C344, transparent); box-shadow: 0 0 10px rgba(245,195,68,.9); animation: lineaL 3s ease-in-out infinite; }
+  .txt { text-align: center; color: #94a3b8; font-size: 13.5px; line-height: 20px; margin-top: 12px; }
+  .yo { margin: 16px auto 0; display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: rgba(20,24,33,.7); border: 1px solid rgba(212,175,55,.4); box-shadow: 0 0 16px -4px rgba(245,195,68,.5); font-size: 12px; color: #cbd5e1; align-self: center; }
+  .yo .led { width: 7px; height: 7px; border-radius: 50%; background: #F5C344; box-shadow: 0 0 8px #F5C344; animation: pulso 2s ease-in-out infinite; }
+  .yo b { color: #FFE088; font-weight: 600; }
+  .lista { margin-top: 22px; display: flex; flex-direction: column; gap: 10px; }
+  .it { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: 14px; background: linear-gradient(180deg, rgba(212,175,55,.06), rgba(10,14,23,.85)); border: 1px solid rgba(212,175,55,.25); }
+  .it .ib { width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgba(245,195,68,.08); border: 1px solid rgba(245,195,68,.35); color: #FFE088; box-shadow: 0 0 10px rgba(245,195,68,.3); }
+  .it b { display: block; font-size: 13px; } .it small { display: block; font-size: 11.5px; color: #94a3b8; line-height: 16px; margin-top: 2px; }
+  .abajo { margin-top: auto; padding-top: 22px; display: flex; flex-direction: column; gap: 10px; }
+  .crear { position: relative; overflow: hidden; height: 52px; border-radius: 14px; background: linear-gradient(90deg, #DFB743, #F2CE5E, #C99E2A); color: #2a2100; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 6px 26px rgba(245,195,68,.5), 0 0 50px -10px rgba(245,195,68,.6), inset 0 1px 1px rgba(255,255,255,.7); animation: latirB 2.8s ease-in-out infinite; }
+  .crear::after { content: ""; position: absolute; top: 0; left: 0; width: 60%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent); transform: translateX(-150%) skewX(-20deg); animation: brillo 4s ease-in-out infinite; }
+  .crear:disabled { filter: grayscale(.7) brightness(.7); animation: none; }
+  .fino { font-size: 11px; color: #64748b; text-align: center; line-height: 15px; }
+  .barra { height: 6px; border-radius: 9px; background: rgba(255,255,255,.07); overflow: hidden; margin-top: 26px; }
+  .barra i { display: block; height: 100%; width: 4%; background: linear-gradient(90deg, #c99e2a, #f2ce5e); box-shadow: 0 0 12px rgba(242,202,80,.6); transition: width .6s ease; }
+  .pasos { margin-top: 24px; display: flex; flex-direction: column; gap: 15px; }
+  .ps { display: flex; gap: 12px; align-items: center; font-size: 13.5px; color: #94a3b8; }
+  .ps .e { width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: transparent; }
+  .ps.ok { color: #e8eaf0; } .ps.ok .e { background: #34d399; border-color: #34d399; color: #053; box-shadow: 0 0 10px rgba(52,211,153,.6); }
+  .ps.va { color: #FFE088; } .ps.va .e { border-color: rgba(242,202,80,.25); border-top-color: #F5C344; animation: girar .9s linear infinite; }
+  .drive { margin-top: 22px; padding: 12px; border-radius: 14px; border: 1px dashed rgba(61,225,252,.4); background: rgba(61,225,252,.05); font-size: 12px; color: #cbd5e1; line-height: 17px; }
+  .drive b { color: #3de1fc; }
+  .err { margin-top: 18px; padding: 12px; border-radius: 14px; border: 1px solid rgba(248,113,113,.45); background: rgba(248,113,113,.07); color: #fecaca; font-size: 12.5px; line-height: 18px; }
+  .oculto { display: none !important; }
+  @property --ang { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+  @keyframes angulo { to { --ang: 360deg; } }
+  @keyframes oroFluye { to { background-position: -250% 0; } }
+  @keyframes brillo { 0%, 55% { transform: translateX(-150%) skewX(-20deg); } 100% { transform: translateX(260%) skewX(-20deg); } }
+  @keyframes latirB { 50% { box-shadow: 0 8px 34px rgba(245,195,68,.7), 0 0 70px -6px rgba(245,195,68,.75), inset 0 1px 1px rgba(255,255,255,.7); } }
+  @keyframes lineaL { 50% { width: 120px; opacity: .7; } }
+  @keyframes pulso { 50% { opacity: .4; } }
+  @keyframes girar { to { transform: rotate(360deg); } }
+  @keyframes respirar { 50% { opacity: .6; transform: scale(1.08); } }
+  @keyframes subir { 0% { transform: translateY(0) scale(.6); opacity: 0; } 10% { opacity: .9; } 80% { opacity: .5; } 100% { transform: translateY(-110vh) scale(1.1); opacity: 0; } }
+/* Lo propio de la puerta (diseño 191), con los mismos colores y medidas de la App */
+.ic { display: inline-flex; flex-shrink: 0; vertical-align: -3px; }
+.ic svg { display: block; width: 100%; height: 100%; }
+.cabeza { display: flex; align-items: center; gap: 12px; text-align: left; }
+.cabeza .anillo { width: 50px; height: 50px; margin: 0; flex-shrink: 0; border-radius: 15px; }
+.cabeza .anillo span { border-radius: 13px; font-size: 19px; }
+.cabeza b { display: block; font-size: 15px; font-weight: 700; }
+.cabeza small { display: block; margin-top: 2px; font-size: 12px; color: #94a3b8; }
+.vista { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+.grande { font-size: 25px; line-height: 32px; font-weight: 600; letter-spacing: -.02em; }
+.sub { color: #94a3b8; font-size: 13.5px; line-height: 20px; }
+.et { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 600; color: #e2e8f0; }
+.caja { width: 100%; height: 50px; padding: 0 14px; border-radius: 12px; background: rgba(6,9,15,.85); border: 1px solid #1E2638; color: #fff; font: 500 16px Inter, sans-serif; outline: 0; }
+.caja:focus { border-color: rgba(245,195,68,.7); }
+.crear { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; text-decoration: none; font-size: 15px; font-weight: 700; }
+.crear.apagado { filter: grayscale(.7) brightness(.7); pointer-events: none; }
+.borde { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 48px; padding: 8px 12px; border-radius: 14px; border: 1px solid rgba(212,175,55,.5); background: transparent; color: #FFE088; font: 600 14px Inter, sans-serif; text-decoration: none; text-align: center; }
+.blanco { background: #fff; color: #1f2937; border-color: #fff; }
+.blanco .g { color: #4285F4; font-weight: 800; }
+.enl { color: #F5C344; font-weight: 600; text-decoration: underline; background: none; border: 0; cursor: pointer; font-size: inherit; font-family: inherit; }
+.centro { text-align: center; font-size: 13px; color: #94a3b8; line-height: 22px; }
+.aviso { padding: 12px 14px; border-radius: 12px; font-size: 13.5px; line-height: 20px; }
+.aviso b { color: #fff; word-break: break-word; }
+.aviso.si { background: rgba(16,88,56,.32); border: 1px solid rgba(74,222,128,.32); color: #bbf0d0; }
+.aviso.no { background: rgba(120,84,10,.3); border: 1px solid rgba(245,195,68,.32); color: #f5d98a; }
+.aviso.mal { background: rgba(120,20,20,.3); border: 1px solid rgba(248,113,113,.34); color: #fecaca; }
+.aviso.azul { background: rgba(30,50,90,.4); border: 1px solid rgba(125,170,235,.34); color: #cfe0ff; }
+.sello { display: inline-block; margin-bottom: 6px; font: 700 11px "JetBrains Mono", monospace; letter-spacing: .06em; }
+.otro { border: 1px solid rgba(125,170,235,.34); border-radius: 12px; background: rgba(10,14,23,.6); }
+.otro summary { cursor: pointer; padding: 13px 14px; font-size: 14px; font-weight: 700; color: #cfe0ff; }
+.otro .sal { display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 0 14px 12px; font-size: 13px; line-height: 19px; color: #cbd5e1; }
+.otro .sal b { color: #fff; word-break: break-word; }
+.otro .n { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(245,195,68,.16); color: #F5C344; font-weight: 700; font-size: 12px; }
+.otro .borde { min-height: 40px; margin-top: 8px; width: auto; display: inline-flex; font-size: 13px; }
+.otro a.borde { display: block; word-break: break-word; line-height: 22px; }
+.linkM { padding: 8px 10px; border-radius: 9px; border: 1px dashed rgba(212,175,55,.5); font: 12px/17px "JetBrains Mono", monospace; word-break: break-all; color: #fff; user-select: all; }
+.instala { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; border: 1px solid rgba(212,175,55,.3); background: rgba(10,14,23,.6); }
+.instala .tx { flex: 1; min-width: 0; font-size: 12px; line-height: 16px; color: #94a3b8; }
+.instala .tx b { display: block; font-size: 13px; color: #fff; }
+.instala .anillo { width: 38px; height: 38px; margin: 0; flex-shrink: 0; border-radius: 11px; }
+.instala .anillo span { border-radius: 9px; font-size: 14px; }
+.instala button { flex-shrink: 0; padding: 8px 14px; border-radius: 10px; background: #F2CE5E; color: #2a2100; font-weight: 700; font-size: 13px; }
+.giro { width: 46px; height: 46px; margin: 60px auto 0; border-radius: 50%; border: 3px solid rgba(245,195,68,.2); border-top-color: #F5C344; animation: girar .9s linear infinite; }
+.capa { padding-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="esp">
+  <div class="fondo"><div class="rayos"></div><div class="halo"></div></div>
+  <div class="capa">
+    <div class="cabeza"><span class="anillo"><span>SP</span></span><div><b>SP · Sistema Personal</b><small>Tu dinero claro, en tu Google Drive</small></div></div>
+
+    <!-- 1. Entrada -->
+    <form class="vista" id="vEntrada" autocomplete="on" novalidate>
+      <h1 class="grande oro">Entra a tu App</h1>
+      <p class="sub">Escribe el Gmail con el que te activamos.</p>
+      <div><label class="et" for="gm">Gmail</label><input class="caja" id="gm" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="130" placeholder="tucorreo@gmail.com"></div>
+      <div class="aviso mal oculto" id="err" role="alert"></div>
+      <button class="crear" type="submit" id="seguir">Continuar <span class="ic " style="width:18px;height:18px"><svg viewBox="0 0 960 960" fill="currentColor" aria-hidden="true"><path d="M630 516H192V444H630L429 243L480 192L768 480L480 768L429 717Z"/></svg></span></button>
+      <p class="centro">¿Todavía no tienes acceso? <a class="enl" id="aPedir" href="#">Quiero mi acceso</a><br>¿Ya pagaste? <button class="enl" type="button" id="aConsultar">Consultar mi pedido</button></p>
+      <div class="instala oculto" id="instala"><span class="anillo"><span>SP</span></span><div class="tx"><b>Instala SP en tu celular</b><span id="instalaT">Ábrela como una app, con su ícono</span></div><button type="button" id="instalar">Instalar</button></div>
+      <p class="fino">Nunca te pedimos tu contraseña aquí: si hace falta, te la pide Google.</p>
+    </form>
+
+    <!-- 2. Tiene acceso -->
+    <div class="vista oculto" id="vSi">
+      <p class="sub oculto" id="hola">Hola de nuevo</p>
+      <div class="aviso si"><span class="ic " style="width:16px;height:16px"><svg viewBox="0 0 960 960" fill="currentColor" aria-hidden="true"><path d="M389 693 195 500 246 448 389 591 714 267 765 318Z"/></svg></span> <b id="siGm"></b> tiene acceso.</div>
+      <a class="borde blanco" id="ir" href="#" rel="noopener"><span class="g">G</span> Entrar con Google</a>
+      <p class="fino">Si Google te pide contraseña, es la de tu Gmail. La primera vez te muestra los permisos de SP: acéptalos.</p>
+      <details class="otro" id="otro">
+        <summary>¿Se abrió con otro Gmail?</summary>
+        <div class="sal"><span class="n">1</span><div><b>Elige la cuenta correcta.</b> Si Google te muestra varias cuentas, toca <b class="gmC"></b>. Si no aparece, toca «Usar otra cuenta» y entra con ella (te pide su contraseña una sola vez).</div></div>
+        <div class="sal"><span class="n">2</span><div><b>Ventana de incógnito.</b> Abre Chrome → ⋮ → «Nueva pestaña de incógnito», pega este link y entra con <b class="gmC"></b>.<br><button class="borde" type="button" id="copiar">Copiar link</button><div class="linkM oculto" id="linkM" style="margin-top:8px"></div></div></div>
+        <div class="sal"><span class="n">3</span><div><b>¿No recuerdas la contraseña de ese Gmail?</b> Te pasamos el acceso al Gmail de tu celular.<br><a class="borde" id="escribir" href="#">✉ Escríbenos a <span id="correoE"></span></a></div></div>
+      </details>
+      <p class="centro"><button class="enl" type="button" id="otroGm">Usar otro Gmail</button></p>
+    </div>
+
+    <!-- 3. No tiene acceso -->
+    <div class="vista oculto" id="vNo">
+      <div class="aviso no"><b id="noGm"></b> todavía no tiene acceso.</div>
+      <a class="crear" id="pedir" href="#">Quiero mi acceso <span class="ic " style="width:18px;height:18px"><svg viewBox="0 0 960 960" fill="currentColor" aria-hidden="true"><path d="M630 516H192V444H630L429 243L480 192L768 480L480 768L429 717Z"/></svg></span></a>
+      <p class="fino">Te llevamos al pedido con este Gmail ya escrito.</p>
+      <button class="borde" type="button" id="noConsultar">Ya pagué · Consultar mi pedido</button>
+      <button class="borde" type="button" id="noOtro">¿Te activamos con otro Gmail? Escríbelo</button>
+    </div>
+
+    <!-- Consultar mi pedido (diseño 190) -->
+    <form class="vista oculto" id="vConsultar" autocomplete="off" novalidate>
+      <h1 class="grande oro">Consultar mi pedido</h1>
+      <p class="sub">Para saber si tu acceso ya está activo.</p>
+      <div><label class="et" for="cPed">Número de pedido (SP-…) o código de Hotmart (HP…)</label><input class="caja" id="cPed" autocapitalize="characters" spellcheck="false" maxlength="30" placeholder="SP-1031-01"></div>
+      <div><label class="et" for="cGm">Gmail con el que pediste</label><input class="caja" id="cGm" type="email" inputmode="email" autocapitalize="none" spellcheck="false" maxlength="130" placeholder="tucorreo@gmail.com"></div>
+      <div class="aviso mal oculto" id="cErr" role="alert"></div>
+      <button class="crear" type="submit" id="cIr">Consultar</button>
+      <div id="cRes" aria-live="polite"></div>
+      <p class="fino">Pedimos los dos datos para proteger tu pedido. Nunca te pedimos tu contraseña.</p>
+      <p class="centro"><button class="enl" type="button" id="cVolver">Volver</button></p>
+    </form>
+
+    <!-- Dentro de WhatsApp, Instagram o Facebook, Google no puede abrir su ventana -->
+    <div class="vista oculto" id="vAndroid">
+      <div class="giro"></div>
+      <h1 class="grande oro" style="text-align:center">Abriendo en Chrome…</h1>
+      <p class="sub" style="text-align:center"><span class="appNom">Esta app</span> no deja abrir la App. Te llevamos a Chrome.</p>
+      <a class="crear" id="irChrome" href="#">Abrir en Chrome</a>
+    </div>
+    <div class="vista oculto" id="vIos">
+      <h1 class="grande oro">Ábrelo en Safari</h1>
+      <p class="sub"><span class="appNom">Esta app</span> no deja abrir la App. Toca los tres puntos ⋯ y luego «Abrir en Safari» o «Abrir en el navegador».</p>
+      <button class="borde" type="button" id="copiarI">No lo encuentro: copiar el link</button>
+      <div class="linkM oculto" id="linkI"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var WEB = "https://script.google.com/macros/s/AKfycbyDY7e6pd_-rVcpRUT7Uzsd-2z3gxoo5sZZxbMxWU5VzJvTRqtM34zCwa3QulXBTQ_jfA/exec", PAGINA = "https://sp-sistemapersonal.github.io/";
+  var $ = function (id) { return document.getElementById(id); };
+  var APP = "", CONTACTO = "sistemapersonal.app@gmail.com", gmail = "";
+  var VISTAS = ["vEntrada", "vSi", "vNo", "vConsultar", "vAndroid", "vIos"];
+  var ver = function (v) { VISTAS.forEach(function (k) { $(k).classList.toggle("oculto", k !== v); }); window.scrollTo(0, 0); };
+  var valido = function (e) { return /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(e) && e.length <= 130; };
+  var esc = function (x) { var e = document.createElement("span"); e.textContent = String(x === undefined || x === null ? "" : x); return e.innerHTML; };
+  var guardar = function (k, v) { try { if (v) localStorage.setItem(k, v); else localStorage.removeItem(k); } catch (e) {} };
+  var leer = function (k) { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };
+  var aqui = function (e) { return location.origin + "/" + (valido(e) ? "?gm=" + encodeURIComponent(e) : ""); };
+  var enviar = function (accion, d) { return fetch(WEB, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ accion: accion, d: d }) }).then(function (r) { return r.json(); }); };
+  var error = function (id, t) { $(id).textContent = t || ""; $(id).classList.toggle("oculto", !t); };
+
+  var linkPedir = function (e) { return PAGINA + (valido(e) ? "?gm=" + encodeURIComponent(e) : "") + "#pide"; };
+  var linkApp = function (e) { return "https://accounts.google.com/AccountChooser?Email=" + e.replace(/\+/g, "%2B") + "&continue=" + APP; };
+  var ponerEntrar = function () {
+    var ok = valido(gmail) && /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(APP);
+    $("ir").classList.toggle("apagado", !ok);
+    $("ir").href = ok ? linkApp(gmail) : "#";
+  };
+  var ponerAyuda = function () {
+    Array.prototype.forEach.call(document.querySelectorAll(".gmC"), function (x) { x.textContent = gmail; });
+    $("correoE").textContent = CONTACTO;
+    $("escribir").href = "mailto:" + CONTACTO + "?subject=" + encodeURIComponent("SP: quiero pasar mi acceso") + "&body=" + encodeURIComponent("Hola, mi acceso está en " + gmail + " y no recuerdo su contraseña. Quiero pasarlo al Gmail de mi celular, que es: ");
+  };
+  var verSi = function (e, deNuevo) {
+    gmail = e; $("siGm").textContent = e; $("hola").classList.toggle("oculto", !deNuevo);
+    ponerEntrar(); ponerAyuda(); ver("vSi");
+  };
+  var verNo = function (e) { gmail = e; $("noGm").textContent = e; $("pedir").href = linkPedir(e); ver("vNo"); };
+
+  // Datos de hoy: el link de la App y el correo de contacto vienen de SP WEB
+  fetch(WEB + "?api=datos", { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (d) {
+    if (d && /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(d.app || "")) APP = d.app;
+    if (d && /^[^@\s<>"'?&]+@[^@\s<>"'?&]+\.[a-z]{2,}$/i.test(String(d.contacto || ""))) CONTACTO = d.contacto;
+    ponerEntrar(); if (gmail) ponerAyuda();
+  }, function () {});
+
+  $("aPedir").href = linkPedir("");
+  $("gm").addEventListener("input", function () { error("err", ""); $("aPedir").href = linkPedir($("gm").value.trim().toLowerCase()); });
+  $("vEntrada").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var e = $("gm").value.trim().toLowerCase();
+    if (!valido(e)) return error("err", "Revisa tu Gmail: debe ser como nombre@gmail.com");
+    error("err", ""); $("seguir").disabled = true;
+    enviar("acceso", { correo: e }).then(function (r) {
+      $("seguir").disabled = false;
+      if (!r || !r.ok) return error("err", (r && r.error) || "No pudimos revisar tu acceso. Intenta de nuevo en un momento.");
+      if (r.acceso) { guardar("sp_gmail", e); verSi(e, false); } else { guardar("sp_gmail", ""); verNo(e); }
+    }, function () { $("seguir").disabled = false; error("err", "No pudimos conectar. Revisa tu internet e intenta de nuevo."); });
+  });
+  var usarOtro = function () { guardar("sp_gmail", ""); $("gm").value = ""; ver("vEntrada"); $("gm").focus(); };
+  $("otroGm").addEventListener("click", usarOtro);
+  $("noOtro").addEventListener("click", usarOtro);
+  $("ir").addEventListener("click", function () { if (gmail) guardar("sp_gmail", gmail); });
+
+  $("copiar").addEventListener("click", function () {
+    var b = $("copiar"), m = $("linkM"), link = aqui(gmail);
+    var aMano = function () { m.textContent = link; m.classList.remove("oculto"); b.textContent = "Copia este link"; };
+    var listo = function () { m.classList.add("oculto"); b.textContent = "Link copiado ✓"; };
+    try { navigator.clipboard.writeText(link).then(listo, aMano); } catch (e) { aMano(); }
+  });
+
+  // Consultar mi pedido (diseño 190)
+  var abrirConsulta = function (e) { if (e) $("cGm").value = e; $("cRes").innerHTML = ""; error("cErr", ""); ver("vConsultar"); };
+  $("aConsultar").addEventListener("click", function () { abrirConsulta($("gm").value.trim().toLowerCase()); });
+  $("noConsultar").addEventListener("click", function () { abrirConsulta(gmail); });
+  $("cVolver").addEventListener("click", function () { ver("vEntrada"); });
+  var res = function (clase, sello, html) { $("cRes").innerHTML = '<div class="aviso ' + clase + '"><span class="sello">' + sello + "</span><div>" + html + "</div></div>"; };
+  $("vConsultar").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var ped = $("cPed").value.trim().toUpperCase(), gm = $("cGm").value.trim().toLowerCase();
+    $("cRes").innerHTML = "";
+    if (!ped || !gm) return error("cErr", "Escribe tu número de pedido y tu Gmail.");
+    error("cErr", ""); $("cIr").disabled = true;
+    enviar("consultar", { ped: ped, correo: gm }).then(function (r) {
+      $("cIr").disabled = false;
+      if (!r || !r.ok) return error("cErr", (r && r.error) || "No pudimos consultar. Intenta de nuevo en un momento.");
+      if (r.estado === "PENDIENTE") res("no", "⏳ PENDIENTE", "Recibimos tu pedido" + (r.fecha ? " el <b>" + esc(r.fecha) + (r.hora ? " a las " + esc(r.hora) : "") + "</b>" : "") + ". Aún estamos confirmando tu pago. Te escribiremos a <b>" + esc(gm) + "</b> apenas lo confirmemos (8 a. m. a 10 p. m.).");
+      else if (r.estado === "ACTIVO") {
+        res("si", "✓ ACTIVO", "Tu acceso está activo en <b>" + esc(gm) + "</b>" + (r.gen ? " (GEN " + esc(r.gen) + ")" : "") + ". Te mandamos el correo «¡Bienvenido(a) a SP!»: si no lo ves, revisa Spam.");
+        var b = document.createElement("button"); b.type = "button"; b.className = "crear"; b.id = "cEntrar"; b.style.marginTop = "10px"; b.textContent = "Entrar a mi App →";
+        b.addEventListener("click", function () { guardar("sp_gmail", gm); verSi(gm, false); });
+        $("cRes").firstChild.appendChild(b);
+      }
+      else if (r.estado === "REVISAR") res("azul", "🔎 EN REVISIÓN", "Estamos revisando tu pago y te escribiremos hoy. No tienes que hacer nada.");
+      else res("mal", "✕ NO ENCONTRADO", "No encontramos un pedido con esos datos. Revisa el número y el Gmail, o escríbenos a <b>" + esc(CONTACTO) + "</b>.");
+    }, function () { $("cIr").disabled = false; error("cErr", "No pudimos conectar. Revisa tu internet e intenta de nuevo."); });
+  });
+
+  // Instalar
+  var promesa = null, instalada = (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+  var ua = navigator.userAgent || "", esIos = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); promesa = e; if (!instalada) $("instala").classList.remove("oculto"); });
+  window.addEventListener("appinstalled", function () { instalada = true; $("instala").classList.add("oculto"); });
+  $("instalar").addEventListener("click", function () {
+    if (promesa) { promesa.prompt(); promesa.userChoice.then(function () { promesa = null; $("instala").classList.add("oculto"); }); return; }
+    $("instalaT").textContent = "Toca Compartir y luego «Agregar a inicio».";
+    $("instalar").classList.add("oculto");
+  });
+  if (esIos && !instalada) { $("instala").classList.remove("oculto"); $("instalaT").textContent = "Compartir → «Agregar a inicio»"; $("instalar").textContent = "Cómo"; }
+  if ("serviceWorker" in navigator) { try { navigator.serviceWorker.register("/sw.js").catch(function () {}); } catch (e) {} }
+
+  // Al abrir: el Gmail del link o el recordado en este celular
+  var gm0 = ""; try { gm0 = (new URLSearchParams(location.search).get("gm") || "").trim().toLowerCase(); } catch (e) {}
+  var recordado = leer("sp_gmail");
+  if (valido(gm0)) { $("gm").value = gm0; $("aPedir").href = linkPedir(gm0); }
+  else if (valido(recordado)) verSi(recordado, true);
+
+  // Dentro de WhatsApp, Instagram, Facebook u otro navegador de una app
+  if (/FBAN|FBAV|FB_IAB|FBIOS|Instagram|WhatsApp|Line\/|Snapchat|TikTok|musical_ly|; wv\)/i.test(ua)) {
+    var link = aqui(valido(gm0) ? gm0 : recordado);
+    var nom = /Instagram/i.test(ua) ? "Instagram" : /FBAN|FBAV|FB_IAB|FBIOS/i.test(ua) ? "Facebook" : /TikTok|musical_ly/i.test(ua) ? "TikTok" : /WhatsApp/i.test(ua) ? "WhatsApp" : "Esta app";
+    Array.prototype.forEach.call(document.querySelectorAll(".appNom"), function (x) { x.textContent = nom; });
+    if (/Android/i.test(ua)) {
+      var intent = "intent://" + link.replace(/^https:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=" + encodeURIComponent(link) + ";end";
+      $("irChrome").href = intent; ver("vAndroid");
+      setTimeout(function () { try { location.href = intent; } catch (e) {} }, 900);
+    } else {
+      ver("vIos");
+      $("copiarI").addEventListener("click", function () {
+        var m = function () { $("linkI").textContent = link; $("linkI").classList.remove("oculto"); };
+        try { navigator.clipboard.writeText(link).then(function () { $("copiarI").textContent = "Link copiado ✓"; }, m); } catch (e) { m(); }
+      });
+    }
+  }
+})();
+</script>
+</body>
+</html>
