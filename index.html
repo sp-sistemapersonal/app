@@ -184,7 +184,7 @@
 (function () {
   var WEB = "https://script.google.com/macros/s/AKfycbyDY7e6pd_-rVcpRUT7Uzsd-2z3gxoo5sZZxbMxWU5VzJvTRqtM34zCwa3QulXBTQ_jfA/exec", PAGINA = "https://sistemapersonal.com/";
   var $ = function (id) { return document.getElementById(id); };
-  var APP = "", CONTACTO = "sistemapersonal.app@gmail.com", gmail = "";
+  var APP = "", CONTACTO = "hola@sistemapersonal.com", gmail = "";
   var VISTAS = ["vEntrada", "vSi", "vNo", "vConsultar", "vAndroid", "vIos"];
   var ver = function (v) { VISTAS.forEach(function (k) { $(k).classList.toggle("oculto", k !== v); }); window.scrollTo(0, 0); };
   var valido = function (e) { return /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(e) && e.length <= 130; };
