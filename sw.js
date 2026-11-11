@@ -1,6 +1,6 @@
 /* SP · puerta (diseño 191): guarda solo la cáscara de la puerta, para abrirla rápido. Nunca datos del cliente:
    lo que va a SP WEB, a Google o a otro sitio pasa directo y no se guarda. */
-const CACHE = "sp-puerta-ffb67ee95d";
+const CACHE = "sp-puerta-aa4e16ecd7";
 const CASCARA = ["/", "/manifest.webmanifest", "/iconos/icono-192.png", "/iconos/icono-512.png", "/iconos/favicon-48.png"];
 
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(CASCARA)).then(() => self.skipWaiting())); });

@@ -108,6 +108,26 @@
 .instala button { flex-shrink: 0; padding: 8px 14px; border-radius: 10px; background: #F2CE5E; color: #2a2100; font-weight: 700; font-size: 13px; }
 .giro { width: 46px; height: 46px; margin: 60px auto 0; border-radius: 50%; border: 3px solid rgba(245,195,68,.2); border-top-color: #F5C344; animation: girar .9s linear infinite; }
 .capa { padding-bottom: 8px; }
+/* Diseño 207: las 3 pantallas de Google, antes de entrar */
+.perm { padding: 16px; border-radius: 16px; border: 1px solid rgba(212,175,55,.45); background: rgba(10,14,23,.7); text-align: left; }
+.perm-k { display: block; font: 700 11.5px Inter, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: #F5C344; }
+.perm-t { display: block; margin-top: 6px; font-size: 17px; color: #fff; }
+.perm-s { margin-top: 2px; font-size: 13.5px; color: #94a3b8; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.paso { display: grid; grid-template-columns: 30px 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+.paso .n { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(245,195,68,.6); color: #F5C344; font-weight: 700; font-size: 13px; }
+.paso b { color: #fff; font-size: 14.5px; }
+.paso p { margin-top: 2px; font-size: 13.5px; line-height: 19px; color: #94a3b8; }
+.paso em { font-style: normal; font-weight: 700; color: #F5C344; }
+.gbt { display: inline-block; margin-top: 6px; padding: 5px 14px; border-radius: 6px; background: #4285F4; color: #fff; font-size: 13px; font-weight: 700; }
+.gbt.mayus { text-transform: uppercase; letter-spacing: .02em; }
+.para { margin-top: 12px; }
+.para summary { cursor: pointer; color: #F5C344; font-weight: 700; font-size: 13.5px; }
+.para ul { list-style: none; margin-top: 8px; padding: 0; }
+.para li { position: relative; padding: 4px 0 4px 22px; font-size: 13px; line-height: 18px; color: #cbd5e1; }
+.para li::before { content: "✓"; position: absolute; left: 2px; color: #5ee596; font-weight: 700; }
+.para li b { color: #fff; }
+.perm-v { margin-top: 10px; font-size: 13px; line-height: 19px; color: #5ee596; }
+.perm-enl { text-decoration: none; padding: 10px 12px; border: 1px dashed rgba(245,195,68,.5); border-radius: 12px; line-height: 19px; }
 </style>
 </head>
 <body>
@@ -132,8 +152,29 @@
     <div class="vista oculto" id="vSi">
       <p class="sub oculto" id="hola">Hola de nuevo</p>
       <div class="aviso si"><span class="ic " style="width:16px;height:16px"><svg viewBox="0 0 960 960" fill="currentColor" aria-hidden="true"><path d="M389 693 195 500 246 448 389 591 714 267 765 318Z"/></svg></span> <b id="siGm"></b> tiene acceso.</div>
+      <!-- Diseño 207 (punto 148): la primera vez en este equipo, las 3 pantallas de Google antes de entrar -->
+      <div class="perm oculto" id="perm">
+        <small class="perm-k">Antes de entrar · solo la primera vez</small>
+        <b class="perm-t">Google te va a mostrar 3 pantallas</b>
+        <p class="perm-s">Son de Google, no de SP. Así sabes qué tocar:</p>
+        <div class="paso"><span class="n">1</span><div><b>«SP necesita tu permiso»</b><p>Toca el botón azul.</p><span class="gbt mayus">Revisar permisos</span></div></div>
+        <div class="paso"><span class="n">2</span><div><b>«Iniciar sesión en SP»</b><p>Revisa que sea tu Gmail y toca:</p><span class="gbt">Continuar</span></div></div>
+        <div class="paso"><span class="n">3</span><div><b>«SP quiere acceder a tu cuenta»</b><p>Deja <em>todas las casillas marcadas</em> y toca «Continuar». Si quitas una, la App no puede funcionar.</p></div></div>
+        <details class="para" open>
+          <summary>¿Para qué es cada permiso?</summary>
+          <ul>
+            <li><b>Tu Drive:</b> solo los archivos que crea SP. No ve tus otros archivos.</li>
+            <li><b>Enviar correos:</b> tus avisos y resúmenes, a tu propio Gmail.</li>
+            <li><b>Servicio externo:</b> el tipo de cambio del día y revisar tu acceso.</li>
+            <li><b>Tareas automáticas:</b> los avisos que llegan solos (ej. cada lunes).</li>
+            <li><b>Tu nombre y correo:</b> para saber que eres tú.</li>
+          </ul>
+        </details>
+        <p class="perm-v">🛡️ SP está verificada por Google. Después de esta vez, entras directo.</p>
+      </div>
       <a class="borde blanco" id="ir" href="#" rel="noopener"><span class="g">G</span> Entrar con Google</a>
-      <p class="fino">Si Google te pide contraseña, es la de tu Gmail. La primera vez te muestra los permisos de SP: acéptalos.</p>
+      <p class="centro oculto" id="permOtra"><button class="enl perm-enl" type="button" id="permAbrir">¿Google te volvió a pedir permisos? Mira qué tocar ▾</button></p>
+      <p class="fino">Si Google te pide contraseña, es la de tu Gmail.</p>
       <details class="otro" id="otro">
         <summary>¿Se abrió con otro Gmail?</summary>
         <div class="sal"><span class="n">1</span><div><b>Elige la cuenta correcta.</b> Si Google te muestra varias cuentas, toca <b class="gmC"></b>. Si no aparece, toca «Usar otra cuenta» y entra con ella (te pide su contraseña una sola vez).</div></div>
@@ -209,8 +250,12 @@
   };
   var verSi = function (e, deNuevo) {
     gmail = e; $("siGm").textContent = e; $("hola").classList.toggle("oculto", !deNuevo);
+    // Diseño 207: el cuadro de los permisos sale la primera vez en este equipo; después, solo el enlace
+    var ya = leer("sp_permisos") === "1";
+    $("perm").classList.toggle("oculto", ya); $("permOtra").classList.toggle("oculto", !ya);
     ponerEntrar(); ponerAyuda(); ver("vSi");
   };
+  $("permAbrir").addEventListener("click", function () { $("perm").classList.remove("oculto"); $("permOtra").classList.add("oculto"); });
   var verNo = function (e) { gmail = e; $("noGm").textContent = e; $("pedir").href = linkPedir(e); ver("vNo"); };
 
   // Datos de hoy: el link de la App y el correo de contacto vienen de SP WEB
@@ -236,7 +281,7 @@
   var usarOtro = function () { guardar("sp_gmail", ""); $("gm").value = ""; ver("vEntrada"); $("gm").focus(); };
   $("otroGm").addEventListener("click", usarOtro);
   $("noOtro").addEventListener("click", usarOtro);
-  $("ir").addEventListener("click", function () { if (gmail) guardar("sp_gmail", gmail); });
+  $("ir").addEventListener("click", function () { if (gmail) guardar("sp_gmail", gmail); guardar("sp_permisos", "1"); });
 
   $("copiar").addEventListener("click", function () {
     var b = $("copiar"), m = $("linkM"), link = aqui(gmail);
